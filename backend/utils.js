@@ -18,6 +18,7 @@ export const generateToken = user => {
 export const isAuth = (req, res, next) => {
    const authorization = req.headers.authorization;
    if (authorization) {
+      // get token from header and starts at index 7
       const token = authorization.slice(7, authorization.length) // Bearer XXXXX
       // decrypt the token
       jwt.verify(token, process.env.JWT_SECRET || 'somethingsecret', (err, decode) => {
