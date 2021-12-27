@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 
+// generating token with 30days expiry
 export const generateToken = user => {
    return jwt.sign({
       _id: user._id,
