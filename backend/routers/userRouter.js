@@ -23,6 +23,7 @@ userRouter.post('/signin', expressAsyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             isAdmin: user.isAdmin,
+            isSeller: user.isSeller,
             token: generateToken(user)
          });
          return;
@@ -44,6 +45,7 @@ userRouter.post('/register', expressAsyncHandler(async (req, res) => {
       name: createdUser.name,
       email: createdUser.email,
       isAdmin: createdUser.isAdmin,
+      isSeller: user.isSeller,
       token: generateToken(createdUser)
    }
    );
@@ -64,6 +66,11 @@ userRouter.put('/profile', isAuth, expressAsyncHandler(async (req, res) => {
    if (user) {
       user.name = req.body.name || user.name
       user.email = req.body.email || user.email
+      if(user.isSeller) {
+         user.seller.name = req.body.sellerName || user.seller.name
+         user.seller.logo = req.body.sellerLogo || user.seller.logo
+         user.seller.description = req.body.sellerDescription || user.seller.description
+      }
       if (req.body.password) {
          user.password = bcrypt.hashSync(req.body.password, 8)
       }
@@ -73,6 +80,7 @@ userRouter.put('/profile', isAuth, expressAsyncHandler(async (req, res) => {
          name: updatedUser.name,
          email: updatedUser.email,
          isAdmin: updatedUser.isAdmin,
+         isSeller: user.isSeller,
          token: generateToken(updatedUser),
       });
    } else {
